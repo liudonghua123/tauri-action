@@ -99,10 +99,11 @@ export function execCommand(
   { cwd }: { cwd?: string } = {}
 ): Promise<void> {
   console.log(`running ${command}`, args)
+  console.log(process.env)
   return execa(command, args, {
     cwd,
     stdio: 'inherit',
-    env: { FORCE_COLOR: '0' },
+    env: { ...process.env, FORCE_COLOR: '0' },
   }).then()
 }
 
