@@ -425,7 +425,7 @@ export async function buildProject(
                   artifactsPath,
                   `${fileAppName}_${app.version}_${
                     process.arch
-                  }_${platform()}_${lang}.exe`
+                  }_windows_${lang}.exe`
                 )
               )
             })
@@ -477,7 +477,7 @@ export async function buildProject(
                   artifactsPath,
                   `${fileAppName}_${app.version}_${
                     process.arch
-                  }_${platform()}_${lang}.exe`
+                  }_windows_${lang}.exe`
                 )
               )
               artifacts.push(
