@@ -400,8 +400,57 @@ export async function buildProject(
             debug ? 'debug' : 'release'
           )
 
+          // make a copy of the executables with version, arch, platform and lang info
+          if (platform() === "darwin") {
+            copyFileSync(
+              join(artifactsPath, `${fileAppName}`),
+              join(
+                artifactsPath,
+                `${fileAppName}_${app.version}_${process.arch}_macos`
+              )
+            )
+          } else if (platform() === "win32") {
+            let langs
+            if (typeof app.wixLanguage === "string") {
+              langs = [app.wixLanguage]
+            } else if (Array.isArray(app.wixLanguage)) {
+              langs = app.wixLanguage
+            } else {
+              langs = Object.keys(app.wixLanguage)
+            }
+            langs.forEach((lang) => {
+              copyFileSync(
+                join(artifactsPath, `${fileAppName}.exe`),
+                join(
+                  artifactsPath,
+                  `${fileAppName}_${app.version}_${
+                    process.arch
+                  }_${platform()}_${lang}.exe`
+                )
+              )
+            })
+          } else {
+            const arch =
+              process.arch === "x64"
+                ? "amd64"
+                : process.arch === "x32"
+                ? "i386"
+                : process.arch
+            copyFileSync(
+              join(artifactsPath, `${fileAppName}`),
+              join(
+                artifactsPath,
+                `${fileAppName}_${app.version}_${arch}_${platform()}`
+              )
+            )
+          }
+
           if (platform() === 'darwin') {
             return [
+              join(
+                artifactsPath,
+                `${fileAppName}_${app.version}_${process.arch}_macos`
+              ),
               join(
                 artifactsPath,
                 `bundle/dmg/${fileAppName}_${app.version}_${process.arch}.dmg`
@@ -423,6 +472,14 @@ export async function buildProject(
             }
             const artifacts: string[] = []
             langs.forEach((lang) => {
+              artifacts.push(
+                join(
+                  artifactsPath,
+                  `${fileAppName}_${app.version}_${
+                    process.arch
+                  }_${platform()}_${lang}.exe`
+                )
+              )
               artifacts.push(
                 join(
                   artifactsPath,
@@ -451,6 +508,10 @@ export async function buildProject(
                   ? 'i386'
                   : process.arch
             return [
+              join(
+                artifactsPath,
+                `${fileAppName}_${app.version}_${arch}_${platform()}`
+              ),
               join(
                 artifactsPath,
                 `bundle/deb/${fileAppName}_${app.version}_${arch}.deb`
