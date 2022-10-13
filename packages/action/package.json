@@ -1,5 +1,5 @@
 {
-  "name": "tauri-action",
+  "name": "@liudonghua123/tauri-action",
   "version": "0.3.1",
   "description": "Tauri GitHub Action",
   "author": "Lucas Nogueira <lucas@tauri.studio>",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@actions/core": "1.10.0",
     "@actions/github": "5.1.1",
-    "@liudonghua123/action-core": "0.3.1",
+    "@liudonghua123/action-core": "^0.3.1",
     "string-argv": "0.3.1",
     "tslib": "2.4.0"
   },
