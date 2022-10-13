@@ -100,12 +100,17 @@ async function run(): Promise<void> {
         for (const artifact of artifacts) {
           // updater provide a .tar.gz, this will prevent duplicate and overwriting of
           // signed archive
-          if (artifact.endsWith('.app') && !existsSync(`${artifact}.tar.gz`)) {
-            await execCommand('tar', ['czf', `${artifact}.tar.gz`, '-C', dirname(artifact), basename(artifact)])
-            artifacts[i] += '.tar.gz'
-          } else if (artifact.endsWith('.app')) {
-            // we can't upload a directory
-            artifacts.splice(i, 1);
+          if (artifact.endsWith('.app')) {
+            const target_arch = target?.split('-')[0] ?? 'x86_64'
+            let arch = 
+              target_arch === 'x86_64'
+                ? 'x64'
+                : target_arch === 'i686'
+                 ? 'x86'
+                 : target_arch
+            const artifactName = `${info.name}_${info.version}_${arch}_macos.app.tar.gz`
+            await execCommand('tar', ['czf', artifactName, '-C', dirname(artifact), basename(artifact)])
+            artifacts[i] = artifactName
           }
           i++
         }
