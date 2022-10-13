@@ -402,13 +402,36 @@ export async function buildProject(
             debug ? 'debug' : 'release'
           )
 
+          // guess arch from first part of target triple, default to x86_64
+          const target_arch = target?.split('-')[0] ?? 'x86_64'
+          // macos targets like x86_64-apple-darwin(x64), aarch64-apple-darwin(aarch64)
+          // windows targets like x86_64-pc-windows-msvc(x64), i686-pc-windows-msvc(x86)
+          // linux targets like x86_64-unknown-linux-gnu(amd64), i686-unknown-linux-gnu(i386)
+          // guess the arch from the target for macos and windows
+          let arch = 
+            target_arch === 'x86_64'
+              ? 'x64'
+              : target_arch === 'i686'
+               ? 'x86'
+               : target_arch
+          // override the arch for linux
+          if(platform() === "linux") {
+            arch = 
+              target_arch === 'x86_64'
+                ? 'amd64'
+                : target_arch === 'i686'
+                  ? 'i386'
+                  : target_arch
+          }
+          console.info(`arch: ${arch}`)
+
           // make a copy of the executables with version, arch, platform and lang info
           if (platform() === "darwin") {
             copyFileSync(
               join(artifactsPath, `${fileAppName}`),
               join(
                 artifactsPath,
-                `${fileAppName}_${app.version}_${process.arch}_macos`
+                `${fileAppName}_${app.version}_${arch}_macos`
               )
             )
           } else if (platform() === "win32") {
@@ -425,19 +448,11 @@ export async function buildProject(
                 join(artifactsPath, `${fileAppName}.exe`),
                 join(
                   artifactsPath,
-                  `${fileAppName}_${app.version}_${
-                    process.arch
-                  }_windows_${lang}.exe`
+                  `${fileAppName}_${app.version}_${arch}_windows_${lang}.exe`
                 )
               )
             })
           } else {
-            const arch =
-              process.arch === "x64"
-                ? "amd64"
-                : process.arch === "x32"
-                ? "i386"
-                : process.arch
             copyFileSync(
               join(artifactsPath, `${fileAppName}`),
               join(
@@ -451,11 +466,11 @@ export async function buildProject(
             return [
               join(
                 artifactsPath,
-                `${fileAppName}_${app.version}_${process.arch}_macos`
+                `${fileAppName}_${app.version}_${arch}_macos`
               ),
               join(
                 artifactsPath,
-                `bundle/dmg/${fileAppName}_${app.version}_${process.arch}.dmg`
+                `bundle/dmg/${fileAppName}_${app.version}_${arch}.dmg`
               ),
               join(artifactsPath, `bundle/macos/${fileAppName}.app`),
               join(artifactsPath, `bundle/macos/${fileAppName}.app.tar.gz`),
@@ -477,38 +492,30 @@ export async function buildProject(
               artifacts.push(
                 join(
                   artifactsPath,
-                  `${fileAppName}_${app.version}_${
-                    process.arch
-                  }_windows_${lang}.exe`
+                  `${fileAppName}_${app.version}_${arch}_windows_${lang}.exe`
                 )
               )
               artifacts.push(
                 join(
                   artifactsPath,
-                  `bundle/msi/${fileAppName}_${app.version}_${process.arch}_${lang}.msi`
+                  `bundle/msi/${fileAppName}_${app.version}_${arch}_${lang}.msi`
                 )
               )
               artifacts.push(
                 join(
                   artifactsPath,
-                  `bundle/msi/${fileAppName}_${app.version}_${process.arch}_${lang}.msi.zip`
+                  `bundle/msi/${fileAppName}_${app.version}_${arch}_${lang}.msi.zip`
                 )
               )
               artifacts.push(
                 join(
                   artifactsPath,
-                  `bundle/msi/${fileAppName}_${app.version}_${process.arch}_${lang}.msi.zip.sig`
+                  `bundle/msi/${fileAppName}_${app.version}_${arch}_${lang}.msi.zip.sig`
                 )
               )
             })
             return artifacts
           } else {
-            const arch =
-              process.arch === 'x64'
-                ? 'amd64'
-                : process.arch === 'x32'
-                  ? 'i386'
-                  : process.arch
             return [
               join(
                 artifactsPath,
