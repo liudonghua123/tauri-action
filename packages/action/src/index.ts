@@ -24,6 +24,7 @@ async function run(): Promise<void> {
     const tauriScript = core.getInput('tauriScript')
     const args = stringArgv(core.getInput('args'))
     const bundleIdentifier = core.getInput('bundleIdentifier')
+    const target = core.getInput('target')
 
     let tagName = core.getInput('tagName').replace('refs/tags/', '')
     let releaseName = core.getInput('releaseName').replace('refs/tags/', '')
@@ -44,7 +45,8 @@ async function run(): Promise<void> {
       iconPath,
       tauriScript,
       args,
-      bundleIdentifier
+      bundleIdentifier,
+      target,
     }
     const info = getInfo(projectPath)
     const artifacts = await buildProject(projectPath, false, options)

@@ -147,6 +147,7 @@ export interface BuildOptions {
   tauriScript: string | null
   args: string[] | null
   bundleIdentifier: string | null
+  target: string | null
 }
 
 export interface Runner {
@@ -247,7 +248,7 @@ export function getInfo(root: string): Info {
 export async function buildProject(
   root: string,
   debug: boolean,
-  { configPath, distPath, iconPath, tauriScript, args, bundleIdentifier }: BuildOptions
+  { configPath, distPath, iconPath, tauriScript, args, bundleIdentifier, target }: BuildOptions
 ): Promise<string[]> {
   return new Promise<Runner>((resolve, reject) => {
     if (tauriScript) {
@@ -397,6 +398,7 @@ export async function buildProject(
 
           const artifactsPath = join(
             getTargetDir(cratePath),
+            target ? target : '',
             debug ? 'debug' : 'release'
           )
 
