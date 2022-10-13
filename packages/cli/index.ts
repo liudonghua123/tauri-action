@@ -6,7 +6,7 @@ import parseArgs from 'minimist'
 
 export async function run(): Promise<void> {
   const argv = parseArgs(process.argv.slice(2), {
-    string: ['project-path', 'config-path', 'dist-path', 'icon-path', 'tauri-script'],
+    string: ['project-path', 'config-path', 'dist-path', 'icon-path', 'tauri-script', 'bundle-identifier'],
     boolean: ['global-tauri', 'include-debug'],
     default: {
       'config-path': 'tauri.conf.json',
@@ -20,6 +20,7 @@ export async function run(): Promise<void> {
   const iconPath = argv['icon-path']
   const includeDebug = argv['include-debug']
   const tauriScript = argv['tauri-script']
+  const bundleIdentifier = argv['bundle-identifier']
   const args = argv._
 
   const options: BuildOptions = {
@@ -27,7 +28,8 @@ export async function run(): Promise<void> {
     distPath,
     iconPath,
     tauriScript,
-    args
+    args,
+    bundleIdentifier,
   }
   const artifacts = await buildProject(projectPath, false, options)
   if (includeDebug) {
