@@ -254,7 +254,7 @@ export async function buildProject(
       const [runnerCommand, ...runnerArgs] = tauriScript.split(' ')
       resolve({ runnerCommand, runnerArgs })
     } else if (
-      hasDependency('@liudonghua123/cli', root) ||
+      hasDependency('@liudonghua123/action-cli', root) ||
       hasDependency('vue-cli-plugin-tauri', root)
     ) {
       resolve(
@@ -263,7 +263,7 @@ export async function buildProject(
           : { runnerCommand: 'npx', runnerArgs: ['tauri'] }
       )
     } else {
-      execCommand('npm', ['install', '-g', '@liudonghua123/cli'], {
+      execCommand('npm', ['install', '-g', '@tauri-apps/cli'], {
         cwd: undefined,
       })
         .then(() => {
