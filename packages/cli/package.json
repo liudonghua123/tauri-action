@@ -1,5 +1,5 @@
 {
-  "name": "@tauri-apps/action-cli",
+  "name": "@liudonghua123/action-cli",
   "version": "0.0.10",
   "description": "Tauri GitHub Action CLI",
   "author": "Lucas Nogueira <lucas@tauri.studio>",
@@ -15,7 +15,7 @@
     "url": "git+https://github.com/tauri-apps/tauri-action.git"
   },
   "dependencies": {
-    "@tauri-apps/action-core": "0.2.0",
+    "@liudonghua123/action-core": "0.2.0",
     "minimist": "1.2.6",
     "tslib": "2.4.0"
   },

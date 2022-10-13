@@ -1,7 +1,7 @@
 import { join, resolve } from 'path'
 import { existsSync } from 'fs'
-import { buildProject } from '@tauri-apps/action-core'
-import type { BuildOptions } from '@tauri-apps/action-core'
+import { buildProject } from '@liudonghua123/action-core'
+import type { BuildOptions } from '@liudonghua123/action-core'
 import parseArgs from 'minimist'
 
 export async function run(): Promise<void> {

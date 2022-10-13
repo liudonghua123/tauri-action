@@ -4,8 +4,8 @@ import { join, resolve, dirname, basename } from 'path'
 import { existsSync } from 'fs'
 import uploadReleaseAssets from './upload-release-assets'
 import createRelease from './create-release'
-import { getPackageJson, buildProject, getInfo, execCommand } from '@tauri-apps/action-core'
-import type { BuildOptions } from '@tauri-apps/action-core'
+import { getPackageJson, buildProject, getInfo, execCommand } from '@liudonghua123/action-core'
+import type { BuildOptions } from '@liudonghua123/action-core'
 import stringArgv from 'string-argv'
 
 async function run(): Promise<void> {
