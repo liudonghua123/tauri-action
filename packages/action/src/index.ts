@@ -101,7 +101,7 @@ async function run(): Promise<void> {
           // updater provide a .tar.gz, this will prevent duplicate and overwriting of
           // signed archive
           if (artifact.endsWith('.app')) {
-            const target_arch = target?.split('-')[0] ?? 'x86_64'
+            const target_arch = target?.split('-')[0] || 'x86_64'
             let arch = 
               target_arch === 'x86_64'
                 ? 'x64'
