@@ -404,7 +404,7 @@ export async function buildProject(
           )
 
           // guess arch from first part of target triple, default to x86_64
-          const target_arch = target?.split('-')[0] ?? 'x86_64'
+          const target_arch = target?.split('-')[0] || 'x86_64'
           // macos targets like x86_64-apple-darwin(x64), aarch64-apple-darwin(aarch64)
           // windows targets like x86_64-pc-windows-msvc(x64), i686-pc-windows-msvc(x86)
           // linux targets like x86_64-unknown-linux-gnu(amd64), i686-unknown-linux-gnu(i386)
