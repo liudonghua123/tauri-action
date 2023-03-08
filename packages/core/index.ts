@@ -424,7 +424,7 @@ export async function buildProject(
                   ? 'i386'
                   : target_arch
           }
-          console.info(`arch: ${arch}`)
+          console.info(`target: ${target}, target_arch: ${target_arch}, arch: ${arch}`)
 
           // make a copy of the executables with version, arch, platform and lang info
           if (platform() === "darwin") {
