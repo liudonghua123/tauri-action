@@ -21,6 +21,7 @@ export async function run(): Promise<void> {
   const includeDebug = argv['include-debug']
   const tauriScript = argv['tauri-script']
   const bundleIdentifier = argv['bundle-identifier']
+  const target = argv['target']
   const args = argv._
 
   const options: BuildOptions = {
@@ -30,6 +31,7 @@ export async function run(): Promise<void> {
     tauriScript,
     args,
     bundleIdentifier,
+    target,
   }
   const artifacts = await buildProject(projectPath, false, options)
   if (includeDebug) {
