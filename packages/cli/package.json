@@ -1,6 +1,6 @@
 {
   "name": "@liudonghua123/action-cli",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Tauri GitHub Action CLI",
   "author": "Lucas Nogueira <lucas@tauri.studio>",
   "license": "MIT",

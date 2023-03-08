@@ -1,6 +1,6 @@
 {
   "name": "@liudonghua123/action-core",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "author": "Lucas Nogueira <lucas@tauri.studio>",
   "license": "MIT",
   "main": "dist",
