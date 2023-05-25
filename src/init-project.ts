@@ -13,14 +13,14 @@ export async function initProject(
   info: Info,
   { iconPath, bundleIdentifier }: BuildOptions
 ): Promise<Application> {
-  const packageJson = getPackageJson(root);
-  const tauriPath = getTauriDir(root);
-
   await runner.execTauriCommand(
     ['init'],
     ['--ci', '--app-name', info.name],
     root
   );
+
+  const packageJson = getPackageJson(root);
+  const tauriPath = getTauriDir(root);
 
   if (tauriPath === null) {
     console.error('Failed to resolve Tauri path');
