@@ -31,6 +31,9 @@ async function run(): Promise<void> {
     const args = stringArgv(core.getInput('args'));
     const bundleIdentifier = core.getInput('bundleIdentifier');
 
+    const productName = core.getInput('productName') || context.repo.repo;
+    const version = core.getInput('version') || '0.1.0';
+
     let tagName = core.getInput('tagName').replace('refs/tags/', '');
     let releaseId = Number(core.getInput('releaseId'));
     let releaseName = core.getInput('releaseName').replace('refs/tags/', '');
@@ -62,6 +65,8 @@ async function run(): Promise<void> {
       tauriScript,
       args,
       bundleIdentifier,
+      productName,
+      version,
     };
 
     const targetArgIdx = [...args].findIndex(
@@ -80,6 +85,7 @@ async function run(): Promise<void> {
     const info = getInfo(projectPath, targetInfo, configArg);
 
     const artifacts: Artifact[] = [];
+    console.info(`buildProject, projectPath: ${projectPath}, options: ${JSON.stringify(options)}, info: ${JSON.stringify(info)}`);
     if (includeRelease) {
       const releaseArtifacts = await buildProject(projectPath, false, options);
       artifacts.push(...releaseArtifacts);

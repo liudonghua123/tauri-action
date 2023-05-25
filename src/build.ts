@@ -38,7 +38,8 @@ export async function buildProject(
 
   const targetInfo = getTargetInfo(targetPath);
 
-  const info = getInfo(root, targetInfo, configArg);
+  const info = getInfo(root, targetInfo, configArg, buildOpts);
+  console.info(`info: ${JSON.stringify(info)}, targetInfo: ${JSON.stringify(targetInfo)}, configArg: ${JSON.stringify(configArg)}`);
 
   const app = info.tauriPath
     ? {

@@ -19,6 +19,8 @@ export interface BuildOptions {
   tauriScript: string | null;
   args: string[] | null;
   bundleIdentifier: string | null;
+  productName: string | null;
+  version: string | null;
 }
 
 export interface CargoManifestBin {

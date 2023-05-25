@@ -51,6 +51,10 @@ inputs:
     description: 'The account owner of the repository'
   repo:
     description: 'The name of the repository'
+  productName:
+    description: 'The name of the tauri app'
+  version:
+    description: 'The version of the tauri app'
 outputs:
   releaseId:
     description: 'The ID of the created release'

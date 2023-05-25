@@ -110,10 +110,11 @@ export function getConfig(
   /* if (customPath) {
     return readCustomConfig(customPath);
   } */
-
+  console.info(`getConfig, tauriDir: ${tauriDir}`);
   if (existsSync(join(tauriDir, 'tauri.conf.json'))) {
     const contents = readFileSync(join(tauriDir, 'tauri.conf.json')).toString();
     const config = _tryParseJsonConfig(contents);
+    console.info(`getConfig, tauri.conf.json, ${JSON.stringify(config)}`);
     if (config) return config;
     console.error("Found tauri.conf.json file but couldn't parse it as JSON.");
   }
@@ -123,6 +124,7 @@ export function getConfig(
       join(tauriDir, 'tauri.conf.json5')
     ).toString();
     const config = _tryParseJson5Config(contents);
+    console.info(`getConfig, tauri.conf.json5, ${JSON.stringify(config)}`);
     if (config) return config;
     console.error(
       "Found tauri.conf.json5 file but couldn't parse it as JSON5."
@@ -132,10 +134,11 @@ export function getConfig(
   if (existsSync(join(tauriDir, 'Tauri.toml'))) {
     const contents = readFileSync(join(tauriDir, 'Tauri.toml')).toString();
     const config = _tryParseTomlConfig(contents);
+    console.info(`getConfig, Tauri.toml, ${JSON.stringify(config)}`);
     if (config) return config;
     console.error("Found Tauri.toml file but couldn't parse it as TOML.");
   }
-
+  console.info(`Couldn't locate or parse tauri config.`);
   throw "Couldn't locate or parse tauri config.";
 }
 

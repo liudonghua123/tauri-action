@@ -8,7 +8,7 @@ import ignore from 'ignore';
 
 import { getConfig, mergePlatformConfig, mergeUserConfig } from './config';
 
-import type { CargoManifest, Info, TargetInfo, TargetPlatform } from './types';
+import type { BuildOptions, CargoManifest, Info, TargetInfo, TargetPlatform } from './types';
 
 /*** constants ***/
 export const extensions = [
@@ -157,9 +157,12 @@ export function execCommand(
 export function getInfo(
   root: string,
   targetInfo?: TargetInfo,
-  configFlag?: string
+  configFlag?: string,
+  buildOpts?: BuildOptions,
 ): Info {
+  console.info(`getInfo, root: ${root}, targetInfo: ${JSON.stringify(targetInfo)}, configFlag: ${configFlag}`)
   const tauriDir = getTauriDir(root);
+  console.info(`getInfo, tauriDir: ${tauriDir}`)
   if (tauriDir !== null) {
     let name;
     let version;
@@ -208,10 +211,11 @@ export function getInfo(
     };
   } else {
     const packageJson = getPackageJson(root);
+    console.info(`getInfo, packageJson: ${JSON.stringify(packageJson)}`)
     const appName = packageJson
       ? (packageJson.displayName || packageJson.name).replace(/ /g, '-')
-      : 'app';
-    const version = packageJson ? packageJson.version : '0.1.0';
+      : buildOpts?.productName;
+    const version = packageJson ? packageJson.version : buildOpts?.version;
     return {
       tauriPath: null,
       name: appName,

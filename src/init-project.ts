@@ -13,21 +13,24 @@ export async function initProject(
   info: Info,
   { iconPath, bundleIdentifier }: BuildOptions
 ): Promise<Application> {
-  const packageJson = getPackageJson(root);
-  const tauriPath = getTauriDir(root);
-
+  console.info(`run tauri init`);
   await runner.execTauriCommand(
     ['init'],
     ['--ci', '--app-name', info.name],
     root
   );
 
+  const packageJson = getPackageJson(root);
+  const tauriPath = getTauriDir(root);
+  console.info(`packageJson: ${JSON.stringify(packageJson)}, tauriPath: ${tauriPath}`);
+
   if (tauriPath === null) {
     console.error('Failed to resolve Tauri path');
     process.exit(1);
   }
   const configPath = join(tauriPath, 'tauri.conf.json');
-  const config = getConfig(configPath);
+  const config = getConfig(tauriPath);
+  console.info(`configPath: ${configPath}, config: ${JSON.stringify(config)}`);
 
   console.log(
     `Replacing tauri.conf.json config - package.version=${info.version}`
