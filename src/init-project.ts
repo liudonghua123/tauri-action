@@ -11,7 +11,7 @@ export async function initProject(
   root: string,
   runner: Runner,
   info: Info,
-  { iconPath, bundleIdentifier }: BuildOptions
+  { iconPath, bundleIdentifier, distPath, productName, version }: BuildOptions
 ): Promise<Application> {
   console.info(`run tauri init`);
   await runner.execTauriCommand(
@@ -37,7 +37,8 @@ export async function initProject(
   );
   const pkgConfig = {
     ...config.package,
-    version: info.version,
+    version: version,
+    productName: productName,
   };
   if (packageJson?.productName) {
     console.log(
@@ -60,13 +61,24 @@ export async function initProject(
     };
   }
 
+  if (distPath) {
+    console.log(
+      `Replacing tauri.conf.json config - tauri.build.distDir=${distPath}`
+    );
+    config.build = {
+      ...config.build,
+      distDir: distPath,
+    };
+  }
+
+  console.info(`update ${configPath} with ${JSON.stringify(configPath,null,2)}`)
   writeFileSync(configPath, JSON.stringify(config, null, 2));
 
   const app = {
     tauriPath,
     runner,
-    name: info.name,
-    version: info.version,
+    name: productName,
+    version: version,
     wixLanguage: info.wixLanguage,
   };
 

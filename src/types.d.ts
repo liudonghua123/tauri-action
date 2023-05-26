@@ -19,8 +19,8 @@ export interface BuildOptions {
   tauriScript: string | null;
   args: string[] | null;
   bundleIdentifier: string | null;
-  productName: string | null;
-  version: string | null;
+  productName: string;
+  version: string;
 }
 
 export interface CargoManifestBin {
@@ -50,6 +50,13 @@ export interface TauriConfig {
     productName?: string;
     version?: string;
   };
+  build?: {
+    distDir?: string,
+    devPath?: string,
+    beforeDevCommand?: string,
+    beforeBuildCommand?: string,
+    withGlobalTauri?: string,
+  },
   tauri?: {
     bundle?: {
       identifier: string;
